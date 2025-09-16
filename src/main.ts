@@ -73,7 +73,27 @@ async function getActress(id: number): Promise<Actress | null> {
   }
 }
 
+
+async function getAllActresses(): Promise<Actress[] | [] | null> {
+  try {
+    const response = await fetch(`http://localhost:3333/actresses`)
+    const data = await response.json()
+
+    return [data]
+  }
+  catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message)
+    }
+    return null
+
+  }
+}
+
 (async () => {
   const actress = await getActress(2)
+  const actresses = await getAllActresses()
+
   console.log(actress)
+  console.log(actresses)
 })()
