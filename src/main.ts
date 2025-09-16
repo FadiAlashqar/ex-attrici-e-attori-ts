@@ -90,10 +90,29 @@ async function getAllActresses(): Promise<Actress[] | [] | null> {
   }
 }
 
+
+async function getActresses(ids: number[]): Promise<(Actress | null)[]> {
+  try {
+    const promises = ids.map((i) => {
+      return getActress(i).catch((err) => null)
+    })
+    const result = await Promise.all(promises)
+
+    return result
+  }
+  catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message)
+    }
+    throw err
+
+  }
+}
+
 (async () => {
   const actress = await getActress(2)
   const actresses = await getAllActresses()
+  const actressesArr = await getActresses([1, 2, 3, 4])
 
-  console.log(actress)
-  console.log(actresses)
+  console.log(actressesArr)
 })()
